@@ -1,5 +1,5 @@
 ## Just an example of how to implement PubSub and Cache servers
-The project is in it's early stages, although bith servers are working properly, there are improvements to make
+The project in it's early stages, although both servers are working properly, there are improvements to make
 
 ### TODO
 - [ ] Add acknowledge support
