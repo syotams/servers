@@ -9,18 +9,18 @@ The project is in it's early stages, although bith servers are working properly,
 
 ### Run from cli
 
-PubSub
+**PubSub**
 
 java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.PubSubServer [localhost, [port]]
 
-PubSub Listener
+**PubSub Listener**
 
 java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.client.Listener [localhost, [port]]
 
-PubSub Publisher Test
+**PubSub Publisher Test**
 
 java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.client.Publisher [localhost, [port, [number of threads]]]
 
-Cache
+**Cache**
 
 java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.cache.server.CacheServer [localhost, [port]]
