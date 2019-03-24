@@ -3,7 +3,7 @@ package com.opal.cache.server;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryStorage implements IStorage {
+public class InMemoryStorage implements StorageInterface {
 
     private Map<String, String> items = new HashMap<>();
 

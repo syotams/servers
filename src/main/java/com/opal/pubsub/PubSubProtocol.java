@@ -41,10 +41,6 @@ public class PubSubProtocol extends AbstractServerProtocol {
                 case "SUBSCRIBE":
                     handleSubscribe(matches, count);
                     break;
-
-                case "KEEP_ALIVE":
-                    System.out.println("KEEP_ALIVE");
-                    break;
             }
         } catch (Exception e) {
             return e.getMessage();

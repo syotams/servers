@@ -1,6 +1,6 @@
 package com.opal.cache.server;
 
-public interface IStorage {
+public interface StorageInterface {
 
     void put(String key, String value);
 

@@ -4,16 +4,16 @@ import com.opal.server.AbstractServerProtocol;
 
 public class InMemoryServerProtocol extends AbstractServerProtocol {
 
-    private IStorage storage;
+    private StorageInterface storage;
 
 
-    public InMemoryServerProtocol(IStorage storage) {
+    public InMemoryServerProtocol(StorageInterface storage) {
         this.storage = storage;
     }
 
 
     protected String onConnected(String input) {
-        String[] items = input.split(" ");
+        String[] items = input.split(" "); // TODO: use regex
 
         switch (items[0]) {
             case "PUT":
@@ -43,7 +43,7 @@ public class InMemoryServerProtocol extends AbstractServerProtocol {
             state = CONNECTED;
         }
 
-        return "Connected to KeyValue CacheServer v1.0, Please use GET/PUT command to insert / receive data";
+        return "Connected to CacheServer v1.0, Please use GET/PUT commands to insert / receive data";
     }
 
     public void reset() {

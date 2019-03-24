@@ -10,7 +10,7 @@ import java.util.Map;
 public class PubSub {
 
     // channels queue list
-    private final Map<String, LinkedListQueue<String>> queues = new HashMap<>();
+    private final Map<String, LinkedListQueue<String>> queues = new HashMap<>(); // TODO: synchronize
 
     // channel subscribers list
     private Map<String, Subscribers> channelSubscribers = new HashMap<>();

@@ -1,8 +1,6 @@
 package com.opal.cache.server;
 
 import com.opal.server.ConnectionHandlerInterface;
-import com.opal.server.Request;
-import com.opal.server.Response;
 import com.opal.server.ServerProtocolInterface;
 
 import java.io.BufferedReader;
@@ -16,13 +14,11 @@ public class ConnectionHandler implements ConnectionHandlerInterface {
     private ServerProtocolInterface protocol;
 
 
-
     public ConnectionHandler(ServerProtocolInterface protocol) {
         this.protocol = protocol;
     }
 
     public void onConnection(Socket socket) {
-
         String clientInput;
 
         try(
@@ -50,13 +46,5 @@ public class ConnectionHandler implements ConnectionHandlerInterface {
     private void close(PrintWriter write) {
         write.println("Bye!");
         protocol.reset();
-    }
-
-    public Request getRequest() {
-        return null;
-    }
-
-    public Response getResponse() {
-        return null;
     }
 }

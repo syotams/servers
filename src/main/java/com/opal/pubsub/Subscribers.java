@@ -1,8 +1,8 @@
 package com.opal.pubsub;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Subscribers extends Thread {
 
@@ -51,21 +51,22 @@ public class Subscribers extends Thread {
     }
 
     private void publish(String item) {
-        synchronized (subscribers) {
-            long startTime = System.nanoTime();
+        long startTime = System.nanoTime();
 
+        synchronized (subscribers) {
             for (Subscriber subscriber : subscribers) {
-                // TODO: this is not good pattern, try in for loop isn't efficient
+                // TODO: should remove closed connections from list
                 subscriber.publish(item);
             }
-
-            long elapsedTime = (System.nanoTime() - startTime) / 1000;
-
-            System.out.println("*******************************************************");
-            System.out.println(String.format("Publish executed in %d ms", elapsedTime));
-            System.out.println(String.format("Queue length is %d", queue.size()));
-            System.out.println("*******************************************************");
         }
+
+        long elapsedTime = (System.nanoTime() - startTime) / 1000;
+
+        System.out.println("*******************************************************");
+        System.out.println(String.format("Publish executed in %d ms",
+                TimeUnit.NANOSECONDS.toMillis(elapsedTime)));
+        System.out.println(String.format("Queue length is %d", queue.size()));
+        System.out.println("*******************************************************");
     }
 
     private String consume() throws InterruptedException {
