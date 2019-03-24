@@ -1,0 +1,13 @@
+## Run from cli
+
+PubSub
+java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.PubSubServer
+
+Listener
+java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.client.Listener
+
+Publisher
+java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.client.Publisher
+
+Cache
+java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.cache.server.CacheServer
