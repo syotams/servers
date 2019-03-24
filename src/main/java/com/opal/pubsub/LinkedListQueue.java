@@ -96,7 +96,7 @@ public class LinkedListQueue<T> implements Iterable<T> {
         return true;
     }
 
-    void reversePrint() {
+    public synchronized void reversePrint() {
         for(Node node = last; node!=null; node = node.prev) {
             System.out.println(node.item);
         }
@@ -111,8 +111,8 @@ public class LinkedListQueue<T> implements Iterable<T> {
     public void clear() {}
 
     // Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
-    public T peek() {
-        return head.item;
+    public synchronized T peek() {
+        return null != head ? head.item : null;
     }
 
     public Iterator<T> iterator() {
