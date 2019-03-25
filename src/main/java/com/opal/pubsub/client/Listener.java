@@ -13,13 +13,16 @@ public class Listener {
     public static void main(String args[]) {
         String host = Console.getArgument(args, 0, "localhost");
         int port    = Console.getInt(args, 1, "4000");
+        String channel = Console.getArgument(args, 2, "default");
+
+        String command = "SUBSCRIBE " + channel;
 
         try (
             Socket socket = new Socket(host, port);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
-            out.println("SUBSCRIBE default");
+            out.println(command);
 
             String fromServer;
 

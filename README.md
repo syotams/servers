@@ -23,11 +23,11 @@ java -cp build/libs/cache-0.1.0.jar com.opal.pubsub.PubSubServer [localhost, [po
 
 **PubSub Listener**
 
-java -cp build/libs/cache-0.1.0.jar com.opal.pubsub.client.Listener [localhost, [port]]
+java -cp build/libs/cache-0.1.0.jar com.opal.pubsub.client.Listener [localhost, [port, [channel]]]
 
 **PubSub Publisher Test**
 
-java -cp build/libs/cache-0.1.0.jar com.opal.pubsub.client.Publisher [localhost, [port, [number of threads]]]
+java -cp build/libs/cache-0.1.0.jar com.opal.pubsub.client.Publisher [localhost, [port, [number of threads, [channel]]]]
 
 **Cache**
 

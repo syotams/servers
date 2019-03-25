@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Publisher implements Runnable {
 
-    private String host;
+    private String host, channel;
 
     private int port;
 
@@ -22,21 +22,23 @@ public class Publisher implements Runnable {
     private long timeElapsed;
 
 
-    public Publisher(String host, int port, int counter) {
+    public Publisher(String host, int port, int counter, String channel) {
         this.host = host;
         this.port = port;
         this.counter = counter;
+        this.channel = channel;
     }
 
     public static void main(String args[]) {
         String host = Console.getArgument(args, 0, "localhost");
         int port    = Console.getInt(args, 1, "4000");
         int total   = Console.getInt(args, 2, "1000");
+        String channel  = Console.getArgument(args, 3, "default");
 
         List<Publisher> publishers = new ArrayList<>();
 
         for(int i=0; i<total; i++) {
-            publishers.add(new Publisher(host, port, i));
+            publishers.add(new Publisher(host, port, i, channel));
         }
 
         ExecutorService executor = Executors.newFixedThreadPool(total);
@@ -48,7 +50,7 @@ public class Publisher implements Runnable {
         }
 
         executor.shutdown();
-        // Wait until all threads are finish
+        // Wait until all threads are finished
         while (!executor.isTerminated()) {}
 
         long elapsedTime = System.nanoTime() - startTime;
@@ -72,7 +74,7 @@ public class Publisher implements Runnable {
                 Socket socket = new Socket(host, port);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true)
         ) {
-            out.println("PUBLISH default event-" + counter);
+            out.println(String.format("PUBLISH %s %s-%d", channel, channel, counter));
         } catch (IOException e) {
             e.printStackTrace();
         }
