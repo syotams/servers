@@ -1,5 +1,7 @@
 package com.opal.pubsub.client;
 
+import com.opal.helpers.Console;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -27,9 +29,9 @@ public class Publisher implements Runnable {
     }
 
     public static void main(String args[]) {
-        String host = getArgument(args, 0, "localhost");
-        int port = Integer.parseInt(getArgument(args, 1, "4000"));
-        int total = Integer.parseInt(getArgument(args, 2, "1000"));
+        String host = Console.getArgument(args, 0, "localhost");
+        int port    = Console.getInt(args, 1, "4000");
+        int total   = Console.getInt(args, 2, "1000");
 
         List<Publisher> publishers = new ArrayList<>();
 
@@ -76,14 +78,6 @@ public class Publisher implements Runnable {
         }
 
         timeElapsed = System.nanoTime() - startTime;
-    }
-
-    private static String getArgument(String[] args, int index, String defaultVal) {
-        if(args.length > index) {
-            return args[index];
-        }
-
-        return defaultVal;
     }
 
     private static long sumOfTimeElapsed(List<Publisher> publishers) {

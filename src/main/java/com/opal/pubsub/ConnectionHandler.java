@@ -43,19 +43,23 @@ public class ConnectionHandler implements ConnectionHandlerInterface {
             }
         }
         catch (IOException e) {
-            System.out.println("Connection closed by client");
-            if(null!=in) {
-                try {
+            e.printStackTrace();
+
+            try {
+                if(null!=in) {
                     in.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
                 }
+                else {
+                    socket.close();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         }
     }
 
     // returns true if should keep reading data
-    private void handle(String command, Socket socket) {
+    private void handle(String command, Socket socket) throws IOException {
         switch (command) {
             case "PUBLISH":
                 pubSub.publish(protocol.getChannel(), protocol.getData());

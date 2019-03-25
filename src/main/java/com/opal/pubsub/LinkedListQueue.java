@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * This class is partially an implementation of LinkedList, just for study purposes
- * in real world we would use LinkedList / other Queue interface implementation
+ * This class is partially implementation for Linked List, just for study purposes!
+ * In real world we would use LinkedList / other Queue interface implementation
  *
  * @param <T>
  */
@@ -46,12 +46,18 @@ public class LinkedListQueue<T> implements Iterable<T> {
      * Retrieves and removes the head of this queue, or returns null if this queue is empty.
      */
     public synchronized T dequeue() {
+        if(null==head) return null;
+
         Node node = head;
-
-        if(null==node) return null;
-
         head = head.next;
+        node.prev = null;
+
+        if(null!=head) {
+            head.prev = null;
+        }
+
         size--;
+
         return node.item;
     }
 

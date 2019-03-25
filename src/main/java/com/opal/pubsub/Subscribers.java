@@ -31,42 +31,30 @@ public class Subscribers extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Subscriber thread started");
+
         String item;
 
-        while (shouldRun) {
-            try {
-                item = consume();
-
-                if (null != item) {
+        try {
+            while (shouldRun) {
+                if (null != (item = consume())) {
                     publish(item);
-                    System.out.println(item);
                     queue.dequeue();
                 }
             }
-            catch (InterruptedException e) {
-                e.printStackTrace();
-                return;
-            }
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace(); // TODO: should handle exception and remove subscribers / restart
         }
     }
 
+    // TODO: should remove closed connections from list
     private void publish(String item) {
-        long startTime = System.nanoTime();
-
         synchronized (subscribers) {
             for (Subscriber subscriber : subscribers) {
-                // TODO: should remove closed connections from list
                 subscriber.publish(item);
             }
         }
-
-        long elapsedTime = (System.nanoTime() - startTime) / 1000;
-
-        System.out.println("*******************************************************");
-        System.out.println(String.format("Publish executed in %d ms",
-                TimeUnit.NANOSECONDS.toMillis(elapsedTime)));
-        System.out.println(String.format("Queue length is %d", queue.size()));
-        System.out.println("*******************************************************");
     }
 
     private String consume() throws InterruptedException {

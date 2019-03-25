@@ -17,8 +17,6 @@ public class PubSubProtocol extends AbstractServerProtocol {
 
     @Override
     protected String onConnected(String input) {
-        System.out.println(input);
-
         command = channel = data = null;
 
         Pattern p = Pattern.compile("(?<command>[a-zA-Z]+?)\\s+(?<channel>\\w+)(\\s+?(?<data>.+))?");

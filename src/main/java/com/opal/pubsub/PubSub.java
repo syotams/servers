@@ -10,7 +10,7 @@ import java.util.Map;
 public class PubSub {
 
     // channels queue list
-    private final Map<String, LinkedListQueue<String>> queues = new HashMap<>(); // TODO: synchronize
+    private final Map<String, LinkedListQueue<String>> queues = new HashMap<>();
 
     // channel subscribers list
     private Map<String, Subscribers> channelSubscribers = new HashMap<>();
@@ -20,24 +20,8 @@ public class PubSub {
         enqueue(channel, item);
     }
 
-    public void subscribe(String channel, Socket socket) {
-        LinkedListQueue<String> queue = getOrCreateQueueForChannel(channel); // FIXME: is it really needed here?
-        Subscribers subscribers = channelSubscribers.get(channel);
-
-        if(subscribers==null) {
-            subscribers = new Subscribers(queue);
-            channelSubscribers.put(channel, subscribers);
-            subscribers.start();
-        }
-
-        Subscriber subscriber = null;
-
-        try {
-            subscriber = new Subscriber(socket);
-            subscribers.addSubscriber(subscriber);
-        } catch (IOException e) {
-            if(null!=subscriber) subscribers.remove(subscriber);
-        }
+    public void subscribe(String channel, Socket socket) throws IOException {
+        getOrCreateSubscribersListForChannel(channel).addSubscriber(new Subscriber(socket));
     }
 
     public void stopRunning() throws InterruptedException {
@@ -52,6 +36,7 @@ public class PubSub {
     private void notifyQueues() {
         for (Map.Entry<String, LinkedListQueue<String>> entry : queues.entrySet()) {
 
+            // notifyAll should be in synchronized block
             synchronized (queues) {
                 entry.getValue().notifyAll();
             }
@@ -72,10 +57,32 @@ public class PubSub {
         LinkedListQueue<String> queue = queues.get(channel);
 
         if(null == queue) {
-            queue = new LinkedListQueue<>();
-            queues.put(channel, queue);
+            queue = createQueueForChannel(channel);
         }
 
         return queue;
+    }
+
+    private LinkedListQueue<String> createQueueForChannel(String channel) {
+        LinkedListQueue<String> queue = new LinkedListQueue<>();
+        queues.put(channel, queue);
+        return queue;
+    }
+
+    private Subscribers getOrCreateSubscribersListForChannel(String channel) {
+        Subscribers subscribers = channelSubscribers.get(channel);
+
+        if(null == subscribers) {
+            subscribers = createSubscribersList(channel);
+            subscribers.start();
+        }
+
+        return subscribers;
+    }
+
+    private Subscribers createSubscribersList(String channel) {
+        Subscribers subscribers = new Subscribers(getOrCreateQueueForChannel(channel));
+        channelSubscribers.put(channel, subscribers);
+        return subscribers;
     }
 }

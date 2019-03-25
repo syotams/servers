@@ -1,25 +1,31 @@
-## Just an example of how to implement PubSub and Cache servers
-The project in it's early stages, although both servers are working properly, there are improvements to make
+## Just an example of how to implement PubSub and Cache servers in a single process architecture
+The project is in the early stages, both servers are working properly, but there are features and improvements
+to add/make
 
 ### TODO
+- [ ] Test, test and test
+- [ ] Logging
+- [ ] Support to multi processes
 - [ ] Add acknowledge support
 - [ ] Cache server incoming connection should be parsed with regex
-- [ ] PubSub queues list should be synchronized
 - [ ] PubSub remove disconnected clients from subscribers list
+- [ ] IOC/DI ?
+- [ ] Enhance the build system
 
-### Run from cli
+
+### Run from cli, currently all projects in single jar
 
 **PubSub**
 
-java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.PubSubServer [localhost, [port]]
+java -cp build/libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.PubSubServer [localhost, [port]]
 
 **PubSub Listener**
 
-java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.client.Listener [localhost, [port]]
+java -cp build/libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.client.Listener [localhost, [port]]
 
 **PubSub Publisher Test**
 
-java -cp libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.client.Publisher [localhost, [port, [number of threads]]]
+java -cp build/libs/cache-1.0-SNAPSHOT.jar com.opal.pubsub.client.Publisher [localhost, [port, [number of threads]]]
 
 **Cache**
 

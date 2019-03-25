@@ -3,6 +3,7 @@ package com.opal.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class Server {
 
@@ -10,6 +11,7 @@ public class Server {
 
     private int portNumber = DEFAULT_PORT;
 
+    // currently no supported
     private ServerListenerInterface listener;
 
     private ConnectionHandlerInterface connectionHandler;
@@ -32,9 +34,18 @@ public class Server {
 
                 Socket clientSocket = serverSocket.accept();
 
+                long startTime = System.nanoTime();
+
                 System.out.println("Incoming connection");
 
                 connectionHandler.onConnection(clientSocket);
+
+                long elapsedTime = System.nanoTime() - startTime;
+
+                System.out.println("Connection results: elapsed time "
+                        + TimeUnit.NANOSECONDS.toMicros(elapsedTime) / 1000f
+                        + "ms"
+                );
             }
 
         } catch (IOException e) {
@@ -49,9 +60,6 @@ public class Server {
     private void setPortNumber(int portNumber) {
         if(portNumber > 1024) {
             this.portNumber = portNumber;
-        }
-        else {
-            this.portNumber = Server.DEFAULT_PORT;
         }
     }
 }
