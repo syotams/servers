@@ -2,6 +2,9 @@ package com.opal.cache.server;
 
 import com.opal.server.AbstractServerProtocol;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class InMemoryServerProtocol extends AbstractServerProtocol {
 
     private StorageInterface storage;
@@ -11,30 +14,46 @@ public class InMemoryServerProtocol extends AbstractServerProtocol {
         this.storage = storage;
     }
 
-
     protected String onConnected(String input) {
-        String[] items = input.split(" "); // TODO: use regex
 
-        switch (items[0]) {
+        Pattern p = Pattern.compile("(?<command>[a-zA-Z]+?)\\s+(?<param>\\w+)(\\s+?(?<data>.+))?");
+        Matcher matches = p.matcher(input);
+
+        if(!matches.find()) {
+            return "Oops, command not found";
+        }
+
+        int count = matches.groupCount();
+
+        String command = matches.group("command");
+        String param = matches.group("param");
+
+        switch (command) {
             case "PUT":
-                if(3 == items.length) {
-                    storage.put(items[1], items[2]);
+                // NUMBER OF ARGUMENTS + 1 FOR REGEX MATCHES THE WHOLE STRING AS A GROUP
+                if(4 <= count) {
+                    storage.put(param, matches.group("data"));
                     return "success";
                 }
 
                 return "Number of arguments must be 3";
 
+            case "GET":
+                // NUMBER OF ARGUMENTS + 1 FOR REGEX MATCHES THE WHOLE STRING AS A GROUP
+                if(!matches.find(3) && count >= 3) {
+                    return storage.get(param);
+                }
+
+                return "Number of arguments must be 2";
+
+            // TODO: support QUIT in regex
             case "QUIT":
                 reset();
                 return "Bye.";
 
             default:
-            case "GET":
-                if(2 == items.length) {
-                    return storage.get(items[1]);
-                }
-
-                return "Number of arguments must be 2";
+                reset();
+                return "Command not supported";
         }
     }
 

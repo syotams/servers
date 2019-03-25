@@ -1,5 +1,7 @@
 package com.opal.cache.client;
 
+import com.opal.helpers.Console;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,8 +11,8 @@ import java.net.Socket;
 public class Client {
 
     public static void main(String args[]) {
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
+        String host = Console.getArgument(args, 0, "localhost");
+        int port = Console.getInt(args, 1, "4000");
 
         try (
             Socket socket = new Socket(host, port);
