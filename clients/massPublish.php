@@ -7,7 +7,7 @@ $service_port = 4000;
 
 $startTime = microtime(true);
 
-$total = $argv[1] ? intval($argv[1]) : 1;
+$total = isset($argv[1]) ? intval($argv[1]) : 1;
 $sockets = [];
 
 /* Create a TCP/IP socket. */

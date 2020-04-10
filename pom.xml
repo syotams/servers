@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.opal</groupId>
+    <artifactId>servers</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>servers</name>
+    <description>Implementation of different server types</description>
+
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+
+    <modules>
+        <module>cache</module>
+        <module>pubsub</module>
+        <module>server</module>
+        <module>nio</module>
+        <module>common</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.opal</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
